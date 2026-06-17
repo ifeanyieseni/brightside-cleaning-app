@@ -1,0 +1,274 @@
+/* ============================================================
+   Admin Media Library — dropzone, upload jobs, media grid
+   ============================================================ */
+
+/* ---------- dropzone ---------- */
+
+.media-dropzone {
+  border: 2px dashed var(--line-strong);
+  border-radius: var(--r-md);
+  background: var(--white);
+  padding: clamp(24px, 4vw, 40px);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.media-dropzone:hover,
+.media-dropzone:focus-visible {
+  border-color: var(--aqua);
+  background: var(--foam);
+}
+
+.media-dropzone.dragging {
+  border-color: var(--teal);
+  background: var(--aqua-soft);
+  transform: scale(1.005);
+}
+
+.media-dropzone-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: var(--aqua-soft);
+  color: var(--teal-deep);
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+}
+
+.media-dropzone b {
+  color: var(--ink);
+  font-size: 1.02rem;
+}
+
+.media-dropzone-hint {
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
+/* ---------- upload jobs ---------- */
+
+.upload-jobs {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.upload-job {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-1);
+}
+
+.upload-job.is-error {
+  border-color: var(--danger);
+  background: var(--danger-soft);
+}
+
+.upload-job-thumb {
+  width: 46px;
+  height: 46px;
+  flex: none;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--foam);
+  display: grid;
+  place-items: center;
+  font-size: 1.2rem;
+}
+
+.upload-job-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.upload-job-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.upload-job-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 6px;
+}
+
+.upload-job-err {
+  color: var(--danger);
+  font-size: 0.84rem;
+}
+
+.upload-job-pct {
+  flex: none;
+  min-width: 52px;
+  text-align: right;
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--teal-deep);
+}
+
+.progress {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--aqua-soft);
+  overflow: hidden;
+}
+
+.progress-bar {
+  display: block;
+  height: 100%;
+  border-radius: var(--r-pill);
+  background: linear-gradient(135deg, var(--teal) 0%, var(--aqua) 130%);
+  transition: width 140ms ease;
+}
+
+/* ---------- toolbar ---------- */
+
+.media-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.media-search {
+  max-width: 320px;
+}
+
+/* ---------- media grid ---------- */
+
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 18px;
+}
+
+.media-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.media-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-2);
+}
+
+.media-thumb {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  background: var(--foam);
+  overflow: hidden;
+}
+
+.media-thumb img,
+.media-thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.media-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(12, 43, 48, 0.55);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 1rem;
+  padding-left: 3px;
+  pointer-events: none;
+}
+
+.media-type-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  backdrop-filter: blur(2px);
+}
+
+.media-type-badge.badge-image {
+  background: rgba(18, 133, 119, 0.85);
+}
+
+.media-type-badge.badge-video {
+  background: rgba(32, 95, 158, 0.85);
+}
+
+.media-card-body {
+  padding: 12px 14px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.media-card-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.media-card-meta {
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+}
+
+.media-card-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.media-card-actions .btn {
+  padding: 7px 11px;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 520px) {
+  .media-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .media-search {
+    max-width: none;
+  }
+}

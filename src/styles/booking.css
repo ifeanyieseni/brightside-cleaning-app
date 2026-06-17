@@ -1,0 +1,435 @@
+/* ============================================================
+   Booking flow — stepper, service select, dates, slots, form,
+   summary and success state
+   ============================================================ */
+
+.booking-shell {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+}
+
+/* The success confirmation has little content — keep it a tidy, centered
+   card instead of stretching it across the full page width. */
+.booking-shell--success {
+  max-width: 600px;
+  margin-inline: auto;
+}
+
+.booking-inner {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+}
+
+.booking-main {
+  padding: clamp(24px, 4vw, 44px);
+  min-width: 0;
+}
+
+/* ---------- stepper ---------- */
+
+.stepper {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 34px;
+}
+
+.step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+
+.step::before {
+  content: '';
+  height: 5px;
+  border-radius: 3px;
+  background: var(--foam);
+  transition: background-color 250ms ease;
+}
+
+.step.done::before {
+  background: var(--aqua);
+}
+
+.step.now::before {
+  background: linear-gradient(90deg, var(--teal), var(--aqua));
+}
+
+.step.now {
+  color: var(--teal-deep);
+}
+
+@media (max-width: 560px) {
+  .step span {
+    display: none;
+  }
+  .step.now span {
+    display: inline;
+  }
+}
+
+/* ---------- step 1: services ---------- */
+
+.pick-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.pick-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  padding: 18px 18px 16px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--white);
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.pick-card:hover {
+  border-color: var(--aqua);
+  transform: translateY(-2px);
+}
+
+.pick-card.selected {
+  border-color: var(--teal);
+  box-shadow: var(--ring);
+  background: linear-gradient(180deg, rgba(217, 242, 238, 0.45), var(--white) 70%);
+}
+
+.pick-card .pick-name {
+  font-weight: 700;
+  font-size: 1.02rem;
+}
+
+.pick-card .pick-desc {
+  font-size: 0.86rem;
+  color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pick-card .pick-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--teal-deep);
+}
+
+.pick-meta .muted {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+@media (max-width: 680px) {
+  .pick-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- step 2: date + time ---------- */
+
+.date-strip {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.date-pill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 6px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--white);
+  transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+.date-pill:hover {
+  border-color: var(--aqua);
+}
+
+.date-pill.selected {
+  border-color: var(--teal);
+  background: var(--aqua-soft);
+  box-shadow: var(--ring);
+}
+
+.date-pill .dow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+
+.date-pill .day {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.date-pill .mon {
+  font-size: 0.72rem;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 680px) {
+  .date-strip {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.slot-grid {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+  gap: 10px;
+}
+
+.slot {
+  padding: 12px 8px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.92rem;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--white);
+  transition: border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+}
+
+.slot:hover {
+  border-color: var(--aqua);
+  transform: translateY(-1px);
+}
+
+.slot.selected {
+  border-color: var(--teal);
+  background: var(--teal);
+  color: var(--white);
+}
+
+.slot-empty {
+  margin-top: 22px;
+  padding: 26px;
+  text-align: center;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: var(--r-md);
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+
+/* ---------- step 3: details form ---------- */
+
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.details-grid .span-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 620px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+  .details-grid .span-2 {
+    grid-column: span 1;
+  }
+}
+
+/* ---------- nav buttons ---------- */
+
+.booking-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.booking-error {
+  margin-top: 18px;
+  padding: 12px 16px;
+  border-radius: var(--r-sm);
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* ---------- summary rail ---------- */
+
+.booking-rail {
+  background: linear-gradient(180deg, var(--ink) 0%, #123a40 100%);
+  color: rgba(255, 255, 255, 0.85);
+  padding: clamp(24px, 3vw, 36px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.booking-rail h3 {
+  color: var(--white);
+  font-size: 1.25rem;
+}
+
+.rail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.94rem;
+}
+
+.rail-row b {
+  color: var(--white);
+  text-align: right;
+}
+
+.rail-row .placeholder {
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 400;
+}
+
+.rail-total {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: var(--white);
+}
+
+.rail-note {
+  font-size: 0.83rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+@media (max-width: 880px) {
+  .booking-inner {
+    grid-template-columns: 1fr;
+  }
+  .booking-rail {
+    order: -1;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 26px;
+    padding: 18px 24px;
+  }
+  .booking-rail h3 {
+    width: 100%;
+    font-size: 1.05rem;
+  }
+  .rail-row {
+    border: none;
+    padding: 0;
+    gap: 8px;
+  }
+  .rail-total {
+    font-size: 1.05rem;
+  }
+  .rail-note {
+    display: none;
+  }
+}
+
+/* ---------- success ---------- */
+
+.success-wrap {
+  text-align: center;
+  padding: clamp(30px, 6vw, 60px) clamp(20px, 5vw, 60px);
+}
+
+.success-burst {
+  width: 86px;
+  height: 86px;
+  margin: 0 auto 26px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--aqua) 0%, var(--teal) 100%);
+  display: grid;
+  place-items: center;
+  color: var(--white);
+  font-size: 2rem;
+  box-shadow: 0 14px 34px rgba(18, 133, 119, 0.4);
+  animation: pop 500ms cubic-bezier(0.3, 1.6, 0.5, 1) both;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.success-wrap h3 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+}
+
+.success-wrap > p {
+  margin-top: 12px;
+  color: var(--ink-soft);
+  max-width: 46ch;
+  margin-inline: auto;
+}
+
+.success-card {
+  margin: 30px auto 0;
+  max-width: 440px;
+  text-align: left;
+  border: 1.5px solid var(--line);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.success-card .row {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 18px;
+  font-size: 0.94rem;
+  border-bottom: 1px solid var(--foam);
+}
+
+.success-card .row:last-child {
+  border-bottom: none;
+}
+
+.success-card .row span {
+  color: var(--ink-soft);
+}
+
+.success-card .row b {
+  text-align: right;
+}
+
+.success-actions {
+  margin-top: 28px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
